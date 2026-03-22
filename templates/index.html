@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Powered UI</title>
+</head>
+
+<body style="background:#0f0f0f; color:white; font-family:sans-serif; text-align:center;">
+
+<h1>Flask Backend Driven UI</h1>
+
+<button onclick="loadData()">Load Data</button>
+<button onclick="getRandom()">Random Number</button>
+
+<div id="output"></div>
+
+<script>
+async function loadData() {
+    let res = await fetch('/api/data');
+    let data = await res.json();
+
+    let html = "<h3>Server Time: " + data.time + "</h3>";
+
+    data.data.forEach(item => {
+        html += `<div>
+                    <h4>${item.title}</h4>
+                    <p>${item.desc}</p>
+                 </div>`;
+    });
+
+    document.getElementById("output").innerHTML = html;
+}
+
+async function getRandom() {
+    let res = await fetch('/api/random');
+    let data = await res.json();
+
+    document.getElementById("output").innerHTML =
+        "<h2>Random: " + data.number + "</h2>";
+}
+</script>
+
+</body>
+</html>
